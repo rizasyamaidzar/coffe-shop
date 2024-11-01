@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product\Product;
 use Illuminate\Http\Request;
 
 class GuestController extends Controller
@@ -9,7 +10,10 @@ class GuestController extends Controller
     //
     public function index()
     {
-        return view('public.pages.index');
+        $products = Product::orderBy('id', 'desc')->take(4)->get();
+        return view('public.pages.index', [
+            'products' => $products
+        ]);
     }
     public function menu()
     {
@@ -35,8 +39,14 @@ class GuestController extends Controller
     {
         return view('public.pages.check-out');
     }
-    public function productSingle()
+    public function productSingle($id)
     {
-        return view('public.pages.product-single');
+        $product = Product::find($id);
+        $relatedProducts = Product::where('type', $product->type)->where('id', '!=', $id)->take(4)->get();
+
+        return view('public.pages.product-single', [
+            'product' => $product,
+            'relatedProducts' => $relatedProducts,
+        ]);
     }
 }

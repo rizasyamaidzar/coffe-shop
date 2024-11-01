@@ -22,14 +22,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 mb-5 ftco-animate">
-                    <a href="images/menu-2.jpg" class="image-popup"><img src="images/menu-2.jpg" class="img-fluid"
+                    <a href="images/menu-2.jpg" class="image-popup"><img
+                            src="{{ asset('assets/images/' . $product->image) }}" class="img-fluid"
                             alt="Colorlib Template"></a>
                 </div>
                 <div class="col-lg-6 product-details pl-md-5 ftco-animate">
-                    <h3>Creamy Latte Coffee</h3>
-                    <p class="price"><span>$4.90</span></p>
-                    <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a
-                        paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+                    <h3>{{ $product->name }}</h3>
+                    <p class="price"><span>{{ $product->price }}</span></p>
+                    <p>{{ $product->description }}.</p>
                     <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would
                         have been rewritten a thousand times and everything that was left from its origin would be the word
                         "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing
@@ -84,50 +84,20 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3">
-                    <div class="menu-entry">
-                        <a href="#" class="img" style="background-image: url(images/menu-1.jpg);"></a>
-                        <div class="text text-center pt-4">
-                            <h3><a href="#">Coffee Capuccino</a></h3>
-                            <p>A small river named Duden flows by their place and supplies</p>
-                            <p class="price"><span>$5.90</span></p>
-                            <p><a href="#" class="btn btn-primary btn-outline-primary">Add to Cart</a></p>
+                @foreach ($relatedProducts as $related)
+                    <div class="col-md-3">
+                        <div class="menu-entry">
+                            <a href="#" class="img"
+                                style="background-image: url({{ asset('assets/images/' . $related->image) }});"></a>
+                            <div class="text text-center pt-4">
+                                <h3><a href="{{ route('productSingle', $related->id) }}">{{ $related->name }}</a></h3>
+                                <p>A {{ $related->description }}</p>
+                                <p class="price"><span>{{ $related->price }}</span></p>
+                                <p><a href="#" class="btn btn-primary btn-outline-primary">Add to Cart</a></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="menu-entry">
-                        <a href="#" class="img" style="background-image: url(images/menu-2.jpg);"></a>
-                        <div class="text text-center pt-4">
-                            <h3><a href="#">Coffee Capuccino</a></h3>
-                            <p>A small river named Duden flows by their place and supplies</p>
-                            <p class="price"><span>$5.90</span></p>
-                            <p><a href="#" class="btn btn-primary btn-outline-primary">Add to Cart</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="menu-entry">
-                        <a href="#" class="img" style="background-image: url(images/menu-3.jpg);"></a>
-                        <div class="text text-center pt-4">
-                            <h3><a href="#">Coffee Capuccino</a></h3>
-                            <p>A small river named Duden flows by their place and supplies</p>
-                            <p class="price"><span>$5.90</span></p>
-                            <p><a href="#" class="btn btn-primary btn-outline-primary">Add to Cart</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="menu-entry">
-                        <a href="#" class="img" style="background-image: url(images/menu-4.jpg);"></a>
-                        <div class="text text-center pt-4">
-                            <h3><a href="#">Coffee Capuccino</a></h3>
-                            <p>A small river named Duden flows by their place and supplies</p>
-                            <p class="price"><span>$5.90</span></p>
-                            <p><a href="#" class="btn btn-primary btn-outline-primary">Add to Cart</a></p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
