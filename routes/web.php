@@ -12,6 +12,7 @@ Route::get('/contact', [GuestController::class, 'contact'])->name('contact');
 Route::get('/cart', [GuestController::class, 'cart'])->name('cart');
 Route::get('/checkout', [GuestController::class, 'checkout'])->name('checkout');
 Route::get('/product/product-single/{id}', [GuestController::class, 'productSingle'])->name('productSingle');
+Route::post('/product/product-single/{id}', [GuestController::class, 'addCart'])->name('add.Cart');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

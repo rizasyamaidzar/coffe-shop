@@ -67,7 +67,14 @@
                             </span>
                         </div>
                     </div>
-                    <p><a href="cart.html" class="btn btn-primary py-3 px-5">Add to Cart</a></p>
+                    <form action="{{ route(add . cart, $product->id) }}" method="POST">
+                        <input type="text" value="{{ $product->id }}" name="id" id="">
+                        <input type="text" value="{{ $product->name }}" name="name" id="">
+                        <input type="text" value="{{ $product->price }}" name="price" id="">
+                        <input type="text" value="{{ $product->image }}" name="image" id="">
+
+                    </form>
+                    <p><button type="submit" name="submit" class="btn btn-primary py-3 px-5">Add to Cart</button></p>
                 </div>
             </div>
         </div>
