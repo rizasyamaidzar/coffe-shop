@@ -20,6 +20,17 @@
 
     <section class="ftco-section">
         <div class="container">
+            @if (Session::has('success'))
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong> {{ Session::get('success') }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+        </div>
+        <div class="container">
             <div class="row">
                 <div class="col-lg-6 mb-5 ftco-animate">
                     <a href="images/menu-2.jpg" class="image-popup"><img
@@ -67,14 +78,18 @@
                             </span>
                         </div>
                     </div>
-                    <form action="{{ route(add . cart, $product->id) }}" method="POST">
-                        <input type="text" value="{{ $product->id }}" name="id" id="">
-                        <input type="text" value="{{ $product->name }}" name="name" id="">
-                        <input type="text" value="{{ $product->price }}" name="price" id="">
-                        <input type="text" value="{{ $product->image }}" name="image" id="">
-
+                    <form action="{{ route('add.Cart', $product->id) }}" method="POST">
+                        @csrf
+                        <input type="hidden" value="{{ $product->id }}" name="id" id="">
+                        <input type="hidden" value="{{ $product->name }}" name="name" id="">
+                        <input type="hidden" value="{{ $product->price }}" name="price" id="">
+                        <input type="hidden" value="{{ $product->image }}" name="image" id="">
+                        @if ($checking == 0)
+                            <button type="submit" class="btn btn-primary py-3 px-5 text-white">Add to Cart</button>
+                        @else
+                            <button type="submit" disabled>Add to Cart</button>
+                        @endif
                     </form>
-                    <p><button type="submit" name="submit" class="btn btn-primary py-3 px-5">Add to Cart</button></p>
                 </div>
             </div>
         </div>
