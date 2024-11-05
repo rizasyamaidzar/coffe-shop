@@ -31,6 +31,7 @@ Route::post('/product/bookings', [GuestController::class, 'bookingTables'])->nam
 
 
 Route::get('/users/order', [UserOrder::class, 'displayOrder'])->name('users.orders');
+Route::get('/users/booking', [UserOrder::class, 'displayBooking'])->name('users.bookings');
 
 
 

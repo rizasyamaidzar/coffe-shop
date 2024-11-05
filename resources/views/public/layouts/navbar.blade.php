@@ -33,7 +33,7 @@
                                         this.closest('form').submit();">Log
                                     Out</a>
                                 <a class="dropdown-item" href="{{ route('users.orders') }}">My Orders</a>
-
+                                <a class="dropdown-item" href="{{ route('users.bookings') }}">My Bookings</a>
                                 <form action="/logout" class="dropdown-item" method="post">
                                     @csrf
                                     <button type="submit" role="menuitem">

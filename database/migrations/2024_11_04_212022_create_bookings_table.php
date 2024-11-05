@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('phone');
             $table->string('message');
             $table->integer('user_id');
+            $table->varchar('status')->default('Processing');
             $table->timestamps();
         });
     }
