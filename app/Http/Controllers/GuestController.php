@@ -6,9 +6,11 @@ use App\Models\Product\Cart;
 use App\Models\Product\Order;
 use Illuminate\Http\Request;
 use App\Models\Product\Product;
+use App\Models\Product\Booking;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
+use Carbon\Carbon;
 
 class GuestController extends Controller
 {
@@ -22,6 +24,10 @@ class GuestController extends Controller
     }
     public function menu()
     {
+        $dessert = Product::where('type', 'foods')->orderBy('id', 'desc')->take(8)->get();
+        $drinks = Product::where('type', 'drinks')->orderBy('id', 'desc')->take(8)->get();
+
+        dd($drinks);
         return view('public.pages.menu');
     }
     public function services()
@@ -118,6 +124,41 @@ class GuestController extends Controller
         ]);
         $validateData['user_id'] = Auth::user()->id;
         Order::create($validateData);
-        return redirect('/cart')->with("success", "Checkout success");
+        return Redirect::route('product.pay');
+    }
+    public function productPay(Request $request)
+    {
+        return view('public.pages.pay');
+    }
+    public function success()
+    {
+        $delete = Cart::where('user_id', Auth::user()->id)->get();
+        $delete->each(function ($item) {
+            $item->delete();
+            Session::forget('price');
+        });
+        return view('public.pages.success');
+    }
+
+    public function bookingTables(Request $request)
+    {
+        $requestDate = Carbon::createFromFormat('n/j/Y', $request->date);
+        $currentDate = Carbon::now();
+
+        if ($requestDate->greaterThan($currentDate)) {
+            $validateData = $request->validate([
+                "first_name" => "required",
+                "last_name" => "required",
+                "date" => "required",
+                "time" => "required",
+                "phone" => "required",
+                "message" => "nullable",
+                "user_id" => "required",
+            ]);
+            Booking::create($request->all());
+            return Redirect::route('home')->with(['booking' => 'your booked a table is successfully']);
+        } else {
+            return Redirect::route('home')->with(['date' => 'invalid date, choose a date future']);
+        }
     }
 }

@@ -17,12 +17,17 @@ Route::get('/cart/{id}', [GuestController::class, 'deleteCart'])->name('delete.c
 
 //Checkout
 Route::get('/prepared-checkout', [GuestController::class, 'preparedCheckout'])->name('prepared.checkout');
-Route::get('/checkout', [GuestController::class, 'checkout'])->name('checkout');
-Route::post('/checkout', [GuestController::class, 'storeCheckout'])->name('store.checkout');
+Route::get('/checkout', [GuestController::class, 'checkout'])->name('checkout')->middleware('check-for-price');
+Route::post('/checkout', [GuestController::class, 'storeCheckout'])->name('store.checkout')->middleware('check-for-price');
 
 // Product
 Route::get('/product/product-single/{id}', [GuestController::class, 'productSingle'])->name('productSingle');
 Route::post('/product/product-single/{id}', [GuestController::class, 'addCart'])->name('add.Cart');
+Route::get('/product/pay', [GuestController::class, 'productPay'])->name('product.pay')->middleware('check-for-price');
+Route::get('/success', [GuestController::class, 'success'])->name('success')->middleware('check-for-price');
+
+Route::post('/product/bookings', [GuestController::class, 'bookingTables'])->name('booking.tables');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

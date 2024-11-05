@@ -123,38 +123,89 @@
                 </div>
                 <div class="book p-4">
                     <h3>Book a Table</h3>
-                    <form action="#" class="appointment-form">
+                    @if (Session::has('date'))
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong> {{ Session::get('date') }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                    @if (Session::has('booking'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong> {{ Session::get('booking') }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                    <form action="{{ route('booking.tables') }}" method="POST" class="appointment-form">
+                        @csrf
                         <div class="d-md-flex">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="First Name">
+                                <input type="text" class="form-control" name="first_name" placeholder="First Name">
                             </div>
+                            @if ($errors->has('first_name'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong> {{ $errors->first('first_name') }}</strong>
+                                </span>
+                            @endif
                             <div class="form-group ml-md-4">
-                                <input type="text" class="form-control" placeholder="Last Name">
+                                <input type="text" class="form-control" name="last_name" placeholder="Last Name">
                             </div>
+                            @if ($errors->has('last_name'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong> {{ $errors->first('last_name') }}</strong>
+                                </span>
+                            @endif
                         </div>
                         <div class="d-md-flex">
                             <div class="form-group">
                                 <div class="input-wrap">
                                     <div class="icon"><span class="ion-md-calendar"></span></div>
-                                    <input type="text" class="form-control appointment_date" placeholder="Date">
+                                    <input type="text" name="date" class="form-control appointment_date"
+                                        placeholder="Date">
                                 </div>
+                                @if ($errors->has('date'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong> {{ $errors->first('date') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                             <div class="form-group ml-md-4">
                                 <div class="input-wrap">
                                     <div class="icon"><span class="ion-ios-clock"></span></div>
-                                    <input type="text" class="form-control appointment_time" placeholder="Time">
+                                    <input type="text" name="time" class="form-control appointment_time"
+                                        placeholder="Time">
                                 </div>
+                                @if ($errors->has('time'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong> {{ $errors->first('time') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                             <div class="form-group ml-md-4">
-                                <input type="text" class="form-control" placeholder="Phone">
+                                <input type="text" name="phone" class="form-control" placeholder="Phone">
+                                <input type="hidden" name="user_id" class="form-control"
+                                    value="{{ Auth::user()->id }}">
                             </div>
+                            @if ($errors->has('phone'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong> {{ $errors->first('phone') }}</strong>
+                                </span>
+                            @endif
                         </div>
                         <div class="d-md-flex">
                             <div class="form-group">
-                                <textarea name="" id="" cols="30" rows="2" class="form-control" placeholder="Message"></textarea>
+                                <textarea name="message" id="" cols="30" rows="2" class="form-control" placeholder="Message"></textarea>
                             </div>
+                            @if ($errors->has('message'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong> {{ $errors->first('message') }}</strong>
+                                </span>
+                            @endif
                             <div class="form-group ml-md-4">
-                                <input type="submit" value="Appointment" class="btn btn-white py-3 px-4">
+                                <input type="submit" name="submit" value="Book" class="btn btn-white py-3 px-4">
                             </div>
                         </div>
                     </form>
