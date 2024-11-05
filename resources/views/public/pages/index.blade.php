@@ -187,7 +187,7 @@
                             <div class="form-group ml-md-4">
                                 <input type="text" name="phone" class="form-control" placeholder="Phone">
                                 <input type="hidden" name="user_id" class="form-control"
-                                    value="{{ Auth::user()->id }}">
+                                    value="{{ Auth::user()->id ?? 0 }}">
                             </div>
                             @if ($errors->has('phone'))
                                 <span class="invalid-feedback" role="alert">

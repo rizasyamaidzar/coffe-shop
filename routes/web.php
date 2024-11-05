@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\UserOrder;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Product\Product;
@@ -28,6 +29,12 @@ Route::get('/success', [GuestController::class, 'success'])->name('success')->mi
 
 Route::post('/product/bookings', [GuestController::class, 'bookingTables'])->name('booking.tables');
 
+
+Route::get('/users/order', [UserOrder::class, 'displayOrder'])->name('users.orders');
+
+
+
+Route::post('/logout', [GuestController::class, 'logout'])->middleware(['auth', 'verified'])->name('logout');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

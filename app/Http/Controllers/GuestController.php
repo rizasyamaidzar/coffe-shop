@@ -26,9 +26,14 @@ class GuestController extends Controller
     {
         $dessert = Product::where('type', 'foods')->orderBy('id', 'desc')->take(8)->get();
         $drinks = Product::where('type', 'drinks')->orderBy('id', 'desc')->take(8)->get();
-
-        dd($drinks);
-        return view('public.pages.menu');
+        $allDesserts = Product::where('type', 'foods')->orderBy('id', 'desc')->get();
+        $allDrinks = Product::where('type', 'drinks')->orderBy('id', 'desc')->get();
+        return view('public.pages.product.menu', [
+            'desserts' => $dessert,
+            'allDesserts' => $allDesserts,
+            'drinks' => $drinks,
+            'allDrinks' => $allDrinks
+        ]);
     }
     public function services()
     {
@@ -51,7 +56,7 @@ class GuestController extends Controller
 
         // checking for product in cart
         $checkingProduct = Cart::where([['pro_id', $id], ['user_id', '=', Auth::user()->id]])->count();
-        return view('public.pages.product-single', [
+        return view('public.pages.product.product-single', [
             'product' => $product,
             'relatedProducts' => $relatedProducts,
             'checking' => $checkingProduct,
@@ -107,7 +112,7 @@ class GuestController extends Controller
     public function checkout()
     {
 
-        return view('public.pages.check-out');
+        return view('public.pages.pay.check-out');
     }
     public function storeCheckout(Request $request)
     {
@@ -128,7 +133,7 @@ class GuestController extends Controller
     }
     public function productPay(Request $request)
     {
-        return view('public.pages.pay');
+        return view('public.pages.pay.pay');
     }
     public function success()
     {
@@ -137,7 +142,7 @@ class GuestController extends Controller
             $item->delete();
             Session::forget('price');
         });
-        return view('public.pages.success');
+        return view('public.pages.pay.success');
     }
 
     public function bookingTables(Request $request)
@@ -160,5 +165,15 @@ class GuestController extends Controller
         } else {
             return Redirect::route('home')->with(['date' => 'invalid date, choose a date future']);
         }
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

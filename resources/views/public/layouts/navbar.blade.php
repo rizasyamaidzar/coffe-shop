@@ -15,9 +15,35 @@
                 <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
                 <li class="nav-item cart"><a href="/cart" class="nav-link"><span
                             class="icon icon-shopping_cart"></span></a>
-                <li class="nav-item"><a href="/login" class="nav-link">login</a></li>
-                <li class="nav-item"><a href="/register" class="nav-link">register</a></li>
+                    @guest
+                    <li class="nav-item"><a href="/login" class="nav-link">login</a></li>
+                    <li class="nav-item"><a href="/register" class="nav-link">register</a></li>
+                @endguest
+                @auth
 
+                    <li class="nav-item">
+                        <div class="dropdown nav-link">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ Auth::user()->name }}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                        this.closest('form').submit();">Log
+                                    Out</a>
+                                <a class="dropdown-item" href="{{ route('users.orders') }}">My Orders</a>
+
+                                <form action="/logout" class="dropdown-item" method="post">
+                                    @csrf
+                                    <button type="submit" role="menuitem">
+                                        Logout
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+
+                @endauth
             </ul>
         </div>
     </div>
